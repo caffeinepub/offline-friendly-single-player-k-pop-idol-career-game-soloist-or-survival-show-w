@@ -1,0 +1,148 @@
+{
+  "kind": "spec_vs_diff_report",
+  "version": "1.0",
+  "generatedAt": "2026-02-08T17:27:06.680Z",
+  "summary": "Diff adds a new single-player game shell with routing, local game-state persistence, IndexedDB media storage, audio/photo/video capture/import components, scripted judge feedback rules, and an optional Internet Identity login with a Motoko backend for profiles/agencies. Several UI/AC items (landing buttons, profile/agency screens, settings copy, asset rendering, and progress sync scope) cannot be confirmed from the provided diff excerpts.",
+  "missing_requirements": [
+    {
+      "id": "REQ-1",
+      "requirement": "Landing screen offers New Game, Continue, Reset; user chooses Soloist or Survival Show at start; continue after refresh; reset clears local state and returns to New Game flow.",
+      "reason": "Routing and local persistence hooks exist, but the actual LandingPage/NewGameModePage UI and logic for New/Continue/Reset and mode selection are not shown in the diff summary, so the acceptance criteria cannot be verified from evidence provided.",
+      "evidence": [
+        "frontend/src/App.tsx",
+        "frontend/src/game/state/useGameState.ts",
+        "frontend/src/game/state/storage.ts"
+      ]
+    },
+    {
+      "id": "REQ-2",
+      "requirement": "Character setup form includes Gender, Nationality, Age with validation; profile summary screen shows chosen values; persisted locally and reloaded.",
+      "reason": "State types include profile fields and local persistence exists, but the CharacterSetupPage and ProfileSummaryPage implementations are not shown, so the form fields, validation, and summary display cannot be verified.",
+      "evidence": [
+        "frontend/src/App.tsx",
+        "frontend/src/game/state/types.ts",
+        "frontend/src/game/state/storage.ts"
+      ]
+    },
+    {
+      "id": "REQ-3",
+      "requirement": "Agency selection screen offers Create Agency / Choose From List; create flow saves custom agency; predefined list is offline; if signed-in, chosen/created agency can be saved and loaded from backend.",
+      "reason": "Predefined list and backend APIs for agencies/selection are present, but the AgencySelectionPage UI behavior (create vs choose flows) and its integration with backend sync cannot be confirmed from the provided excerpts.",
+      "evidence": [
+        "frontend/src/App.tsx",
+        "frontend/src/game/agency/predefinedAgencies.ts",
+        "frontend/src/hooks/useQueries.ts",
+        "backend/main.mo"
+      ]
+    },
+    {
+      "id": "REQ-5",
+      "requirement": "Submitted performances appear in a history list for the current playthrough and remain accessible after refresh.",
+      "reason": "Video capture/upload and submission state structures exist, but the HistoryPage and the actual submission persistence/display of history entries are not shown, so the history list acceptance criteria cannot be verified.",
+      "evidence": [
+        "frontend/src/App.tsx",
+        "frontend/src/components/VideoCaptureOrUpload.tsx",
+        "frontend/src/game/state/types.ts",
+        "frontend/src/game/state/useGameState.ts"
+      ]
+    },
+    {
+      "id": "REQ-6",
+      "requirement": "After each submission, show judge panel with score breakdown + 3–6 actionable tips; feedback varies by type/difficulty/self-rating; copy explicitly frames judges as fictional/in-game feedback.",
+      "reason": "Scripted feedback generation with 4–6 tips and type/difficulty/self-rating inputs is implemented, but the ResultsFeedbackPage UI and the required disclaimer copy are not shown, so the panel rendering and explicit fictional framing cannot be verified.",
+      "evidence": [
+        "frontend/src/game/judging/judgeRules.ts",
+        "frontend/src/App.tsx"
+      ]
+    },
+    {
+      "id": "REQ-7",
+      "requirement": "Optional sign-in only for syncing lightweight text-based progress (excluding large media); core gameplay works without sign-in; include a settings screen explaining local vs synced storage.",
+      "reason": "Internet Identity login and backend actor access exist, and local-only media storage exists, but there is no shown implementation that actually syncs lightweight game progress (profile/story progress/metadata) to the backend, and the SettingsPage copy/behavior is not shown.",
+      "evidence": [
+        "frontend/src/hooks/useInternetIdentity.ts",
+        "frontend/src/hooks/useActor.ts",
+        "frontend/src/game/state/storage.ts",
+        "frontend/src/media/indexedDbMediaStore.ts",
+        "backend/main.mo",
+        "frontend/src/App.tsx"
+      ]
+    },
+    {
+      "id": "REQ-8",
+      "requirement": "Consistent playful K-pop stage visual theme across key screens; primary colors not blue/purple; consistent layout components.",
+      "reason": "A dark theme with pink/gold accents is present in global CSS and layout, but the actual key pages’ UI consistency cannot be verified because most page components are not included in the excerpt.",
+      "evidence": [
+        "frontend/src/index.css",
+        "frontend/src/components/AppLayout.tsx",
+        "frontend/src/App.tsx"
+      ]
+    },
+    {
+      "id": "REQ-9",
+      "requirement": "Generated images exist under frontend/public/assets/generated and are referenced by UI (logo/background on landing; judge avatars on feedback screen).",
+      "reason": "No evidence in the provided diff excerpt shows the static image files under `frontend/public/assets/generated` or any UI references to those paths. (Some added files were omitted due to limits, so this cannot be confirmed.)",
+      "evidence": [
+        "frontend/src/App.tsx"
+      ]
+    }
+  ],
+  "hallucinated_features": [
+    {
+      "description": "Footer includes a promotional link to caffeine.ai and a heart icon in the UI.",
+      "reason": "Not requested in any requirement; adds branding/promotional content beyond the game spec.",
+      "evidence": [
+        "frontend/src/components/AppLayout.tsx"
+      ]
+    },
+    {
+      "description": "Backend access-control initialization via a secret URL parameter (caffeineAdminToken) and authorization mixins.",
+      "reason": "BuildRequest requires a single Motoko actor and optional Internet Identity sync, but does not request an admin-token URL parameter or custom access-control framework initialization logic.",
+      "evidence": [
+        "frontend/src/hooks/useActor.ts",
+        "backend/main.mo"
+      ]
+    }
+  ],
+  "confidence": 0.68,
+  "changed_files": [
+    "all_files_summary.json",
+    "backend/main.mo",
+    "frontend-file-summaries.txt",
+    "frontend/index.css",
+    "frontend/index.html",
+    "frontend/src/App.tsx",
+    "frontend/src/components/AppLayout.tsx",
+    "frontend/src/components/AudioCaptureOrImport.tsx",
+    "frontend/src/components/LoginButton.tsx",
+    "frontend/src/components/PhotoCaptureOrUpload.tsx",
+    "frontend/src/components/VideoCaptureOrUpload.tsx",
+    "frontend/src/game/agency/predefinedAgencies.ts",
+    "frontend/src/game/judging/judgeRules.ts",
+    "frontend/src/game/judging/types.ts",
+    "frontend/src/game/state/storage.ts",
+    "frontend/src/game/state/types.ts",
+    "frontend/src/game/state/useGameState.ts",
+    "frontend/src/hooks/useActor.ts",
+    "frontend/src/hooks/useInternetIdentity.ts",
+    "frontend/src/hooks/useQueries.ts",
+    "frontend/src/index.css",
+    "frontend/src/main.tsx",
+    "frontend/src/media/indexedDbMediaStore.ts",
+    "frontend/src/media/useAudioRecorder.ts",
+    "frontend/src/media/useVideoRecorder.ts",
+    "frontend/src/pages/AgencySelectionPage.tsx",
+    "frontend/src/pages/CareerModePage.tsx",
+    "frontend/src/pages/CharacterSetupPage.tsx",
+    "frontend/src/pages/HistoryPage.tsx",
+    "frontend/src/pages/LandingPage.tsx",
+    "frontend/src/pages/NewGameModePage.tsx",
+    "frontend/src/pages/ProfileSummaryPage.tsx",
+    "frontend/src/pages/ResultsFeedbackPage.tsx",
+    "frontend/src/pages/SettingsPage.tsx",
+    "frontend/src/pages/SubmitPerformancePage.tsx",
+    "frontend/src/utils/urlParams.ts",
+    "frontend/tailwind.config.js",
+    "project_state.json"
+  ]
+}

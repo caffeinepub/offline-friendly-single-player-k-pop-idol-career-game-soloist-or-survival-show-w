@@ -1,0 +1,214 @@
+{
+  "kind": "build_request",
+  "title": "Offline-friendly single-player K-pop idol career game (soloist or survival show) with media submissions and scripted judge feedback",
+  "priority": "normal",
+  "requirements": [
+    {
+      "id": "REQ-1",
+      "text": "Create the core single-player game flow with two career paths: (1) Soloist career mode and (2) Survival show storyline mode. The user must be able to start a new game, continue an existing game, and reset progress.",
+      "target": "frontend",
+      "source": {
+        "messageIds": [
+          "msg-2"
+        ],
+        "quotes": [
+          "become a kpop idol (fake) or join a survail show or soloist"
+        ]
+      },
+      "acceptanceCriteria": [
+        "Landing screen offers: New Game, Continue, Reset",
+        "User can choose Soloist or Survival Show at the start of a new game",
+        "Progress can be continued after page refresh (using local persistence)",
+        "Reset clears locally stored game state and returns to New Game flow"
+      ]
+    },
+    {
+      "id": "REQ-2",
+      "text": "Implement player profile/character setup for the user’s fake K-pop life, including selectable gender, nationality, and age, and store it as part of game state.",
+      "target": "frontend",
+      "source": {
+        "messageIds": [
+          "msg-2"
+        ],
+        "quotes": [
+          "u can pickgener nationalty and age of ur  fake kpop life"
+        ]
+      },
+      "acceptanceCriteria": [
+        "Character setup form includes: Gender, Nationality, Age (with basic validation)",
+        "Profile summary screen shows the chosen values clearly",
+        "Profile values are persisted locally and reloaded on app restart"
+      ]
+    },
+    {
+      "id": "REQ-3",
+      "text": "Implement an entertainment company (agency) system where the player can either (a) create a custom agency (name + optional short description) or (b) choose from a predefined list of agencies included in the app.",
+      "target": "both",
+      "source": {
+        "messageIds": [
+          "msg-2"
+        ],
+        "quotes": [
+          "u can make ur own ent or have a ent that already exist"
+        ]
+      },
+      "acceptanceCriteria": [
+        "Agency selection screen offers: Create Agency and Choose From List",
+        "Create Agency flow saves the custom agency into the player’s game state",
+        "Predefined agency list is available offline without fetching from external services",
+        "If backend sync is enabled (signed-in user), the chosen/created agency can be saved and loaded from the backend as well"
+      ]
+    },
+    {
+      "id": "REQ-4",
+      "text": "Add offline-friendly media capture/import features that let the user use their real voice for auditions and attach a real photo of themselves as part of their character/audition profile, with all media stored locally on the device (no required upload).",
+      "target": "frontend",
+      "source": {
+        "messageIds": [
+          "msg-2"
+        ],
+        "quotes": [
+          "use ur real voice to aud send a real pic of ur self"
+        ]
+      },
+      "acceptanceCriteria": [
+        "User can record audio in-browser (when supported) or import an audio file",
+        "User can capture or upload a photo image file",
+        "Captured/imported media is stored locally (e.g., IndexedDB) and remains available after refresh",
+        "UI clearly indicates media is stored on-device and does not require posting online to play"
+      ]
+    },
+    {
+      "id": "REQ-5",
+      "text": "Add offline-friendly performance submission for dancing/rapping (video capture or upload) and allow the user to attach it to a specific audition/performance event in the chosen career path, with media stored locally on-device.",
+      "target": "frontend",
+      "source": {
+        "messageIds": [
+          "msg-2"
+        ],
+        "quotes": [
+          "u dancing rapping and the like"
+        ]
+      },
+      "acceptanceCriteria": [
+        "User can record video in-browser (when supported) or import a video file",
+        "User can select performance type (e.g., Dance, Rap, Vocal, Mixed) when submitting",
+        "A submitted performance appears in a history list for the current career playthrough",
+        "Submitted videos are stored locally and remain accessible after refresh"
+      ]
+    },
+    {
+      "id": "REQ-6",
+      "text": "Implement in-game “fake judges” that generate coaching-style feedback for each submitted audition/performance using scripted rules (not online AI/ML), based on the player-selected performance type, difficulty, and a short self-rating input.",
+      "target": "frontend",
+      "source": {
+        "messageIds": [
+          "msg-2"
+        ],
+        "quotes": [
+          "fake judge in the game will like judge u to actually help u improve"
+        ]
+      },
+      "acceptanceCriteria": [
+        "After each submission, the game shows a judge panel with: score breakdown + 3–6 actionable improvement tips",
+        "Feedback varies by performance type (Vocal vs Rap vs Dance) and chosen difficulty/self-rating inputs",
+        "Copy explicitly frames judges as fictional/in-game feedback (no claim of professional analysis)",
+        "Works fully offline (no external API calls)"
+      ]
+    },
+    {
+      "id": "REQ-7",
+      "text": "Ensure the game is “not an online game” in the sense that it is single-player, has no multiplayer features, and does not require any external third-party services/APIs to function; provide an optional sign-in (Internet Identity) mode only for syncing basic text-based progress (excluding large media) if available.",
+      "target": "both",
+      "source": {
+        "messageIds": [
+          "msg-2"
+        ],
+        "quotes": [
+          "it's not a online game data free"
+        ]
+      },
+      "acceptanceCriteria": [
+        "Core gameplay works without sign-in and without external API calls",
+        "No multiplayer/chat/real-time features exist",
+        "If user signs in, only lightweight state (profile + story progress + metadata) is synced to backend; large media remains local-only",
+        "App includes a simple settings screen explaining what is stored locally vs synced"
+      ]
+    },
+    {
+      "id": "REQ-8",
+      "text": "Create a coherent visual theme for the app UI appropriate for a playful K-pop stage vibe (avoid blue/purple as primary colors), and apply it consistently across screens (typography, buttons, panels, and background).",
+      "target": "frontend",
+      "source": {
+        "messageIds": [
+          "msg-2"
+        ],
+        "quotes": [
+          "I want to make a fun game ... kpop idol"
+        ]
+      },
+      "acceptanceCriteria": [
+        "Theme uses a consistent palette and typography across all screens",
+        "Primary colors are not blue/purple (e.g., dark stage + hot pink + gold accents)",
+        "Key screens (Landing, Character Setup, Agency, Career Mode, Submit Performance, Results/Feedback, History, Settings) share consistent layout components"
+      ]
+    },
+    {
+      "id": "REQ-9",
+      "text": "Generate and include a small set of static visual assets (logo, background, judge avatars) and render them from the frontend as static files under `frontend/public/assets/generated` (no backend image routing).",
+      "target": "frontend",
+      "source": {
+        "messageIds": [
+          "msg-2"
+        ],
+        "quotes": [
+          "fun game ... kpop idol ... fake judge"
+        ]
+      },
+      "acceptanceCriteria": [
+        "Generated images are present in `frontend/public/assets/generated` and referenced directly by the UI",
+        "Landing screen shows the generated logo and uses the generated background",
+        "Judge feedback screen displays distinct judge avatar images"
+      ]
+    }
+  ],
+  "constraints": [
+    "Use English for all user-facing UI text.",
+    "Backend must remain a single Motoko actor (no additional backend services).",
+    "Do not edit any files under frontend immutablePaths (compose existing hooks/components instead).",
+    "No external APIs/services for judging, media analysis, or gameplay content.",
+    "Media (audio/photo/video) must not be required to upload to the backend to play; store locally on-device."
+  ],
+  "nonGoals": [
+    "Real ML/AI evaluation of the user’s actual voice/video content.",
+    "Online multiplayer, social feeds, chat, real-time features, push notifications, or messaging.",
+    "Using real-world entertainment company names/logos that could create IP/branding issues (prefer fictional or user-created agencies).",
+    "Cross-device media synchronization."
+  ],
+  "imageRequirements": {
+    "required": [
+      "Game logo with playful K-pop stage typography (kpop-idol-logo.dim_512x512.png)",
+      "Wide stage background with spotlights and confetti, dark theme with hot pink and gold accents (kpop-stage-bg.dim_1920x1080.png)",
+      "Judge avatar portrait 1, stylized cartoon, neon rim light (judge-avatar-1.dim_512x512.png)",
+      "Judge avatar portrait 2, stylized cartoon, glamorous fashion (judge-avatar-2.dim_512x512.png)",
+      "Judge avatar portrait 3, stylized cartoon, street/hip-hop vibe (judge-avatar-3.dim_512x512.png)"
+    ],
+    "edits": []
+  },
+  "userProfileUpdate": {
+    "goalsToAdd": [
+      "Build an offline-friendly single-player K-pop idol career game with customizable character/agency and scripted judge feedback."
+    ],
+    "goalsToRemove": [],
+    "preferencesToAdd": [
+      "Use English for all UI copy."
+    ],
+    "preferencesToRemove": [],
+    "miscToAdd": [
+      "Game concept: fake K-pop idol life (soloist or survival show), user can submit real voice/photo/video locally; judging is fictional and offline."
+    ],
+    "miscToRemove": [],
+    "fieldsToSet": {},
+    "fieldsToDelete": []
+  }
+}

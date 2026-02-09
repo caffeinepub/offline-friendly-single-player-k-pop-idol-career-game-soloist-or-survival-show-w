@@ -1,0 +1,218 @@
+{
+  "kind": "feature_evidence_report",
+  "features": [
+    {
+      "featureId": "feature-create-the-core-single-player-game-flow-with-two-career-paths-1-soloist-career-mode-and-2-survival-show-storyline-mode-the-user-must-be-able-to-start-a-new-game-continue-an-existing-game-and-reset-progress",
+      "featureTitle": "Create the core single-player game flow with two career paths: (1) Soloist career mode and (2) Survival show storyline mode. The user must be able to start a new game, continue an existing game, and reset progress.",
+      "files": [
+        "frontend/src/App.tsx",
+        "frontend/src/game/state/storage.ts",
+        "frontend/src/game/state/types.ts",
+        "frontend/src/game/state/useGameState.ts",
+        "frontend/src/pages/CareerModePage.tsx",
+        "frontend/src/pages/LandingPage.tsx",
+        "frontend/src/pages/NewGameModePage.tsx"
+      ],
+      "components": [
+        "authorization@4.0.0",
+        "camera@1.0.0",
+        "core-infrastructure@1.0.2",
+        "shadcn-ui@1.0.0",
+        "build-template-react@1.0.0",
+        "initial-app@1.0.0",
+        "github-export-icp-cli@1.0.0"
+      ],
+      "testIds": [
+        "REQ-1"
+      ],
+      "confidence": "high"
+    },
+    {
+      "featureId": "feature-implement-player-profile-character-setup-for-the-user-s-fake-k-pop-life-including-selectable-gender-nationality-and-age-and-store-it-as-part-of-game-state",
+      "featureTitle": "Implement player profile/character setup for the user’s fake K-pop life, including selectable gender, nationality, and age, and store it as part of game state.",
+      "files": [
+        "frontend/src/App.tsx",
+        "frontend/src/game/state/types.ts",
+        "frontend/src/pages/CharacterSetupPage.tsx",
+        "frontend/src/pages/ProfileSummaryPage.tsx"
+      ],
+      "components": [
+        "authorization@4.0.0",
+        "camera@1.0.0",
+        "core-infrastructure@1.0.2",
+        "shadcn-ui@1.0.0",
+        "build-template-react@1.0.0",
+        "initial-app@1.0.0",
+        "github-export-icp-cli@1.0.0"
+      ],
+      "testIds": [
+        "REQ-2"
+      ],
+      "confidence": "high"
+    },
+    {
+      "featureId": "feature-implement-an-entertainment-company-agency-system-where-the-player-can-either-a-create-a-custom-agency-name-optional-short-description-or-b-choose-from-a-predefined-list-of-agencies-included-in-the-app",
+      "featureTitle": "Implement an entertainment company (agency) system where the player can either (a) create a custom agency (name + optional short description) or (b) choose from a predefined list of agencies included in the app.",
+      "files": [
+        "frontend/src/App.tsx",
+        "frontend/src/game/agency/predefinedAgencies.ts",
+        "frontend/src/game/state/types.ts",
+        "frontend/src/pages/AgencySelectionPage.tsx"
+      ],
+      "components": [
+        "authorization@4.0.0",
+        "camera@1.0.0",
+        "core-infrastructure@1.0.2",
+        "shadcn-ui@1.0.0",
+        "build-template-react@1.0.0",
+        "initial-app@1.0.0",
+        "github-export-icp-cli@1.0.0"
+      ],
+      "testIds": [
+        "REQ-3"
+      ],
+      "confidence": "high"
+    },
+    {
+      "featureId": "feature-add-offline-friendly-media-capture-import-features-that-let-the-user-use-their-real-voice-for-auditions-and-attach-a-real-photo-of-themselves-as-part-of-their-character-audition-profile-with-all-media-stored-locally-on-the-device-no-required-upload",
+      "featureTitle": "Add offline-friendly media capture/import features that let the user use their real voice for auditions and attach a real photo of themselves as part of their character/audition profile, with all media stored locally on the device (no required upload).",
+      "files": [
+        "frontend/src/components/AudioCaptureOrImport.tsx",
+        "frontend/src/components/PhotoCaptureOrUpload.tsx",
+        "frontend/src/game/state/types.ts",
+        "frontend/src/media/indexedDbMediaStore.ts",
+        "frontend/src/media/useAudioRecorder.ts",
+        "frontend/src/pages/CharacterSetupPage.tsx"
+      ],
+      "components": [
+        "authorization@4.0.0",
+        "camera@1.0.0",
+        "core-infrastructure@1.0.2",
+        "shadcn-ui@1.0.0",
+        "build-template-react@1.0.0",
+        "initial-app@1.0.0",
+        "github-export-icp-cli@1.0.0"
+      ],
+      "testIds": [
+        "REQ-4"
+      ],
+      "confidence": "high"
+    },
+    {
+      "featureId": "feature-add-offline-friendly-performance-submission-for-dancing-rapping-video-capture-or-upload-and-allow-the-user-to-attach-it-to-a-specific-audition-performance-event-in-the-chosen-career-path-with-media-stored-locally-on-device",
+      "featureTitle": "Add offline-friendly performance submission for dancing/rapping (video capture or upload) and allow the user to attach it to a specific audition/performance event in the chosen career path, with media stored locally on-device.",
+      "files": [
+        "frontend/src/App.tsx",
+        "frontend/src/components/VideoCaptureOrUpload.tsx",
+        "frontend/src/game/state/types.ts",
+        "frontend/src/media/useVideoRecorder.ts",
+        "frontend/src/pages/HistoryPage.tsx",
+        "frontend/src/pages/SubmitPerformancePage.tsx"
+      ],
+      "components": [
+        "authorization@4.0.0",
+        "camera@1.0.0",
+        "core-infrastructure@1.0.2",
+        "shadcn-ui@1.0.0",
+        "build-template-react@1.0.0",
+        "initial-app@1.0.0",
+        "github-export-icp-cli@1.0.0"
+      ],
+      "testIds": [
+        "REQ-5"
+      ],
+      "confidence": "high"
+    },
+    {
+      "featureId": "feature-implement-in-game-fake-judges-that-generate-coaching-style-feedback-for-each-submitted-audition-performance-using-scripted-rules-not-online-ai-ml-based-on-the-player-selected-performance-type-difficulty-and-a-short-self-rating-input",
+      "featureTitle": "Implement in-game “fake judges” that generate coaching-style feedback for each submitted audition/performance using scripted rules (not online AI/ML), based on the player-selected performance type, difficulty, and a short self-rating input.",
+      "files": [
+        "frontend/src/game/judging/judgeRules.ts",
+        "frontend/src/game/judging/types.ts",
+        "frontend/src/pages/HistoryPage.tsx",
+        "frontend/src/pages/ResultsFeedbackPage.tsx",
+        "frontend/src/pages/SubmitPerformancePage.tsx"
+      ],
+      "components": [
+        "authorization@4.0.0",
+        "camera@1.0.0",
+        "core-infrastructure@1.0.2",
+        "shadcn-ui@1.0.0",
+        "build-template-react@1.0.0",
+        "initial-app@1.0.0",
+        "github-export-icp-cli@1.0.0"
+      ],
+      "testIds": [
+        "REQ-6"
+      ],
+      "confidence": "high"
+    },
+    {
+      "featureId": "feature-ensure-the-game-is-not-an-online-game-in-the-sense-that-it-is-single-player-has-no-multiplayer-features-and-does-not-require-any-external-third-party-services-apis-to-function-provide-an-optional-sign-in-internet-identity-mode-only-for-syncing-basic-text-based-progress-excluding-large-media-if-available",
+      "featureTitle": "Ensure the game is “not an online game” in the sense that it is single-player, has no multiplayer features, and does not require any external third-party services/APIs to function; provide an optional sign-in (Internet Identity) mode only for syncing basic text-based progress (excluding large media) if available.",
+      "files": [
+        "frontend/src/App.tsx",
+        "frontend/src/components/LoginButton.tsx",
+        "frontend/src/game/state/storage.ts",
+        "frontend/src/pages/SettingsPage.tsx"
+      ],
+      "components": [
+        "authorization@4.0.0",
+        "camera@1.0.0",
+        "core-infrastructure@1.0.2",
+        "shadcn-ui@1.0.0",
+        "build-template-react@1.0.0",
+        "initial-app@1.0.0",
+        "github-export-icp-cli@1.0.0"
+      ],
+      "testIds": [
+        "REQ-7"
+      ],
+      "confidence": "high"
+    },
+    {
+      "featureId": "feature-create-a-coherent-visual-theme-for-the-app-ui-appropriate-for-a-playful-k-pop-stage-vibe-avoid-blue-purple-as-primary-colors-and-apply-it-consistently-across-screens-typography-buttons-panels-and-background",
+      "featureTitle": "Create a coherent visual theme for the app UI appropriate for a playful K-pop stage vibe (avoid blue/purple as primary colors), and apply it consistently across screens (typography, buttons, panels, and background).",
+      "files": [
+        "frontend/src/App.tsx",
+        "frontend/src/components/AppLayout.tsx",
+        "frontend/src/index.css",
+        "frontend/tailwind.config.js"
+      ],
+      "components": [
+        "authorization@4.0.0",
+        "camera@1.0.0",
+        "core-infrastructure@1.0.2",
+        "shadcn-ui@1.0.0",
+        "build-template-react@1.0.0",
+        "initial-app@1.0.0",
+        "github-export-icp-cli@1.0.0"
+      ],
+      "testIds": [
+        "REQ-8"
+      ],
+      "confidence": "high"
+    },
+    {
+      "featureId": "feature-generate-and-include-a-small-set-of-static-visual-assets-logo-background-judge-avatars-and-render-them-from-the-frontend-as-static-files-under-frontend-public-assets-generated-no-backend-image-routing",
+      "featureTitle": "Generate and include a small set of static visual assets (logo, background, judge avatars) and render them from the frontend as static files under `frontend/public/assets/generated` (no backend image routing).",
+      "files": [
+        "frontend/src/pages/LandingPage.tsx",
+        "frontend/src/pages/ResultsFeedbackPage.tsx"
+      ],
+      "components": [
+        "authorization@4.0.0",
+        "camera@1.0.0",
+        "core-infrastructure@1.0.2",
+        "shadcn-ui@1.0.0",
+        "build-template-react@1.0.0",
+        "initial-app@1.0.0",
+        "github-export-icp-cli@1.0.0"
+      ],
+      "testIds": [
+        "REQ-9"
+      ],
+      "confidence": "high"
+    }
+  ]
+}

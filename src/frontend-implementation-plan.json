@@ -1,0 +1,377 @@
+{
+  "kind": "implementation_plan",
+  "version": "1.0",
+  "title": "Offline-friendly single-player K-pop idol career game (Soloist/Survival) with local media + scripted judge feedback",
+  "requirements": [
+    {
+      "id": "REQ-1",
+      "summary": "Build the core single-player game flow (Soloist vs Survival) with New/Continue/Reset and local persistence.",
+      "acceptanceCriteria": [
+        "Landing screen offers: New Game, Continue, Reset",
+        "User can choose Soloist or Survival Show at the start of a new game",
+        "Progress can be continued after page refresh (using local persistence)",
+        "Reset clears locally stored game state and returns to New Game flow"
+      ],
+      "file_operations": [
+        {
+          "path": "frontend/src/App.tsx",
+          "operation": "modify",
+          "description": "Add top-level routing/navigation for Landing, New Game flow, Career Mode, Submission, Results/Feedback, History, and Settings; wire Continue/Reset behaviors to persisted state so there are no orphan screens."
+        },
+        {
+          "path": "frontend/src/game/state/types.ts",
+          "operation": "create",
+          "description": "Define the core local game state types (career path selection, story progress, submission history references, settings flags) used throughout the single-player flow."
+        },
+        {
+          "path": "frontend/src/game/state/storage.ts",
+          "operation": "create",
+          "description": "Implement local persistence for lightweight game state (e.g., localStorage) including load, save, and reset helpers; ensure state reloads on refresh."
+        },
+        {
+          "path": "frontend/src/game/state/useGameState.ts",
+          "operation": "create",
+          "description": "Create a React hook that exposes game state + actions (new game, continue, reset, update progress) and persists changes via the storage helper."
+        },
+        {
+          "path": "frontend/src/pages/LandingPage.tsx",
+          "operation": "create",
+          "description": "Implement Landing UI with New Game / Continue / Reset actions (Continue disabled when no save exists) and route into the correct flow based on persisted state."
+        },
+        {
+          "path": "frontend/src/pages/NewGameModePage.tsx",
+          "operation": "create",
+          "description": "Implement the start-of-new-game mode selection UI (Soloist vs Survival Show) and initialize a fresh game state snapshot when the user confirms."
+        },
+        {
+          "path": "frontend/src/pages/CareerModePage.tsx",
+          "operation": "create",
+          "description": "Create the main career/story screen that reads the chosen career path and current progress from local state and provides a clear action to start a performance submission event."
+        }
+      ]
+    },
+    {
+      "id": "REQ-2",
+      "summary": "Add character setup (gender, nationality, age) with validation and local persistence as part of game state.",
+      "acceptanceCriteria": [
+        "Character setup form includes: Gender, Nationality, Age (with basic validation)",
+        "Profile summary screen shows the chosen values clearly",
+        "Profile values are persisted locally and reloaded on app restart"
+      ],
+      "file_operations": [
+        {
+          "path": "frontend/src/game/profile/types.ts",
+          "operation": "create",
+          "description": "Define player character profile fields (gender, nationality, age) and any validation constraints to be used by the setup flow."
+        },
+        {
+          "path": "frontend/src/pages/CharacterSetupPage.tsx",
+          "operation": "create",
+          "description": "Create the character setup form with basic validation (required fields, sensible age range) and save profile into the local game state."
+        },
+        {
+          "path": "frontend/src/pages/ProfileSummaryPage.tsx",
+          "operation": "create",
+          "description": "Show a clear summary of the chosen character values and provide a button to proceed to agency selection."
+        },
+        {
+          "path": "frontend/src/game/state/types.ts",
+          "operation": "modify",
+          "description": "Extend core game state to include persisted player profile (gender, nationality, age) and ensure it is saved/loaded with the rest of the game state."
+        },
+        {
+          "path": "frontend/src/App.tsx",
+          "operation": "modify",
+          "description": "Wire Character Setup and Profile Summary screens into the New Game flow routing so the user must complete setup before proceeding."
+        }
+      ]
+    },
+    {
+      "id": "REQ-3",
+      "summary": "Implement agency selection with offline predefined agencies and a custom agency creator; optionally sync selection when signed in.",
+      "acceptanceCriteria": [
+        "Agency selection screen offers: Create Agency and Choose From List",
+        "Create Agency flow saves the custom agency into the player’s game state",
+        "Predefined agency list is available offline without fetching from external services",
+        "If backend sync is enabled (signed-in user), the chosen/created agency can be saved and loaded from the backend as well"
+      ],
+      "file_operations": [
+        {
+          "path": "frontend/src/game/agency/predefinedAgencies.ts",
+          "operation": "create",
+          "description": "Add a small offline, fictional predefined agency list bundled with the app (no network fetch) and export it for the selection UI."
+        },
+        {
+          "path": "frontend/src/pages/AgencySelectionPage.tsx",
+          "operation": "create",
+          "description": "Build agency selection UI with two paths: pick from predefined list or create custom (name + optional description); save choice into local game state."
+        },
+        {
+          "path": "frontend/src/game/state/types.ts",
+          "operation": "modify",
+          "description": "Add agency selection (predefined vs custom, name/description) to the persisted local game state."
+        },
+        {
+          "path": "frontend/src/sync/useAgencySync.ts",
+          "operation": "create",
+          "description": "Implement optional signed-in sync helpers that use the existing actor (useActor) to load/save the user’s agency selection; ensure offline/local remains the source of truth when not signed in."
+        },
+        {
+          "path": "frontend/src/pages/AgencySelectionPage.tsx",
+          "operation": "modify",
+          "description": "Add optional 'Sync from account' / 'Save to account' controls that appear only when authenticated, using useAgencySync. Verify the component's usage instructions before implementing."
+        },
+        {
+          "path": "frontend/src/App.tsx",
+          "operation": "modify",
+          "description": "Wire Agency Selection into the required flow (after profile summary; before career mode) so the agency is always set for a playthrough."
+        }
+      ]
+    },
+    {
+      "id": "REQ-4",
+      "summary": "Add offline-friendly audio recording/import and photo capture/upload, stored locally on-device (IndexedDB) with clear UI messaging.",
+      "acceptanceCriteria": [
+        "User can record audio in-browser (when supported) or import an audio file",
+        "User can capture or upload a photo image file",
+        "Captured/imported media is stored locally (e.g., IndexedDB) and remains available after refresh",
+        "UI clearly indicates media is stored on-device and does not require posting online to play"
+      ],
+      "file_operations": [
+        {
+          "path": "frontend/src/media/indexedDbMediaStore.ts",
+          "operation": "create",
+          "description": "Create an IndexedDB-backed media store for blobs/files (audio + images) that returns stable media IDs and supports load/delete by ID."
+        },
+        {
+          "path": "frontend/src/media/useAudioRecorder.ts",
+          "operation": "create",
+          "description": "Implement an offline audio recorder hook using MediaRecorder when supported, producing a File/Blob that can be saved into the IndexedDB media store; include graceful fallback state for unsupported browsers."
+        },
+        {
+          "path": "frontend/src/components/AudioCaptureOrImport.tsx",
+          "operation": "create",
+          "description": "Create UI to record audio (when supported) or import an audio file, then save it locally and return the resulting media ID to the caller; include copy explaining it stays on-device."
+        },
+        {
+          "path": "frontend/src/components/PhotoCaptureOrUpload.tsx",
+          "operation": "create",
+          "description": "Create UI for photo capture (camera) or upload image file, saving to IndexedDB and returning media ID; use the selected 'camera' hook for preview/capture. Verify the component's usage instructions before implementing."
+        },
+        {
+          "path": "frontend/src/pages/CharacterSetupPage.tsx",
+          "operation": "modify",
+          "description": "Add optional audition/profile media section to attach a photo and a vocal audition audio clip to the player’s local state as media IDs, and show explicit on-device storage messaging."
+        },
+        {
+          "path": "frontend/src/game/state/types.ts",
+          "operation": "modify",
+          "description": "Store only lightweight references (media IDs + basic metadata) for audio/photo in the game state; do not embed large blobs in localStorage."
+        }
+      ]
+    },
+    {
+      "id": "REQ-5",
+      "summary": "Support offline performance submission (video record/upload) with performance type selection and a per-playthrough history list; store videos locally on-device.",
+      "acceptanceCriteria": [
+        "User can record video in-browser (when supported) or import a video file",
+        "User can select performance type (e.g., Dance, Rap, Vocal, Mixed) when submitting",
+        "A submitted performance appears in a history list for the current career playthrough",
+        "Submitted videos are stored locally and remain accessible after refresh"
+      ],
+      "file_operations": [
+        {
+          "path": "frontend/src/media/useVideoRecorder.ts",
+          "operation": "create",
+          "description": "Implement a MediaRecorder-based video recorder hook with supported/unsupported states, producing a video file to store in IndexedDB; keep the design offline-first."
+        },
+        {
+          "path": "frontend/src/components/VideoCaptureOrUpload.tsx",
+          "operation": "create",
+          "description": "Create UI to record video (when supported) or upload an existing video file, saving it into IndexedDB and returning a media ID; include clear on-device storage copy."
+        },
+        {
+          "path": "frontend/src/game/submissions/types.ts",
+          "operation": "create",
+          "description": "Define submission metadata (career path event id/label, performance type, difficulty, self-rating, timestamps, local media IDs) stored in lightweight state."
+        },
+        {
+          "path": "frontend/src/pages/SubmitPerformancePage.tsx",
+          "operation": "create",
+          "description": "Build the submission form for the current playthrough (select performance type + difficulty + self-rating; attach video and optionally audio/photo references) and persist it into the history list."
+        },
+        {
+          "path": "frontend/src/pages/HistoryPage.tsx",
+          "operation": "create",
+          "description": "Implement a local-only submission history list for the current playthrough with ability to view a submission and play back locally stored media."
+        },
+        {
+          "path": "frontend/src/game/state/types.ts",
+          "operation": "modify",
+          "description": "Add a submission history collection to the persisted state; store only metadata + media IDs (videos stored in IndexedDB)."
+        },
+        {
+          "path": "frontend/src/App.tsx",
+          "operation": "modify",
+          "description": "Wire Submit Performance and History pages into navigation from Career Mode, and ensure the current playthrough context is passed consistently."
+        }
+      ]
+    },
+    {
+      "id": "REQ-6",
+      "summary": "Implement offline scripted “fake judges” that generate score breakdowns and actionable tips based on performance type, difficulty, and self-rating.",
+      "acceptanceCriteria": [
+        "After each submission, the game shows a judge panel with: score breakdown + 3–6 actionable improvement tips",
+        "Feedback varies by performance type (Vocal vs Rap vs Dance) and chosen difficulty/self-rating inputs",
+        "Copy explicitly frames judges as fictional/in-game feedback (no claim of professional analysis)",
+        "Works fully offline (no external API calls)"
+      ],
+      "file_operations": [
+        {
+          "path": "frontend/src/game/judging/judgeRules.ts",
+          "operation": "create",
+          "description": "Create deterministic scripted judging rules that produce a score breakdown and 3–6 actionable tips based on performance type, difficulty, and self-rating (no external calls)."
+        },
+        {
+          "path": "frontend/src/game/judging/types.ts",
+          "operation": "create",
+          "description": "Define judge feedback output types (overall score, category scores, tips, judge persona id) to store alongside each submission."
+        },
+        {
+          "path": "frontend/src/pages/ResultsFeedbackPage.tsx",
+          "operation": "create",
+          "description": "Render the judge panel after a submission: score breakdown, actionable tips, and explicit disclaimer that judges are fictional/in-game coaching."
+        },
+        {
+          "path": "frontend/src/pages/SubmitPerformancePage.tsx",
+          "operation": "modify",
+          "description": "After saving a submission, run scripted judging locally and route to Results/Feedback with the computed feedback attached to the saved submission record."
+        },
+        {
+          "path": "frontend/src/pages/HistoryPage.tsx",
+          "operation": "modify",
+          "description": "Allow viewing prior submissions’ saved judge feedback offline (no re-judging required unless data missing)."
+        }
+      ]
+    },
+    {
+      "id": "REQ-7",
+      "summary": "Keep gameplay fully offline/single-player with no external APIs; add optional Internet Identity sign-in only for syncing lightweight text progress (not media) and a Settings screen explaining storage/sync.",
+      "acceptanceCriteria": [
+        "Core gameplay works without sign-in and without external API calls",
+        "No multiplayer/chat/real-time features exist",
+        "If user signs in, only lightweight state (profile + story progress + metadata) is synced to backend; large media remains local-only",
+        "App includes a simple settings screen explaining what is stored locally vs synced"
+      ],
+      "file_operations": [
+        {
+          "path": "frontend/src/components/LoginButton.tsx",
+          "operation": "create",
+          "description": "Add a login/logout button using the existing Internet Identity hook patterns for optional authentication (do not gate offline gameplay behind login). Verify the component's usage instructions before implementing."
+        },
+        {
+          "path": "frontend/src/sync/syncTypes.ts",
+          "operation": "create",
+          "description": "Define a lightweight 'sync payload' shape derived from local game state (profile + story progress + submission metadata only; exclude media blobs)."
+        },
+        {
+          "path": "frontend/src/sync/useProgressSync.ts",
+          "operation": "create",
+          "description": "Implement optional sync helpers that, when authenticated, prepare/consume the lightweight sync payload and call backend capabilities via the existing actor; ensure media stays local-only."
+        },
+        {
+          "path": "frontend/src/pages/SettingsPage.tsx",
+          "operation": "create",
+          "description": "Create Settings screen explaining what is stored locally (including audio/photo/video) vs what can be synced (text-only progress/metadata), and provide explicit controls for manual sync when signed in."
+        },
+        {
+          "path": "frontend/src/game/state/storage.ts",
+          "operation": "modify",
+          "description": "Add helpers to export/import a lightweight progress snapshot for sync (explicitly excluding any media content) and to clear local cached sync metadata on logout."
+        },
+        {
+          "path": "frontend/src/App.tsx",
+          "operation": "modify",
+          "description": "Wire Settings route into navigation from Landing/Career, and place optional LoginButton entry point (e.g., in header or settings) without introducing multiplayer/social features."
+        }
+      ]
+    },
+    {
+      "id": "REQ-8",
+      "summary": "Apply a consistent playful K-pop stage theme (not blue/purple primary) across all required screens with reusable layout components.",
+      "acceptanceCriteria": [
+        "Theme uses a consistent palette and typography across all screens",
+        "Primary colors are not blue/purple (e.g., dark stage + hot pink + gold accents)",
+        "Key screens (Landing, Character Setup, Agency, Career Mode, Submit Performance, Results/Feedback, History, Settings) share consistent layout components"
+      ],
+      "file_operations": [
+        {
+          "path": "frontend/tailwind.config.js",
+          "operation": "modify",
+          "description": "Adjust Tailwind theme tokens/CSS variable mappings to support a dark-stage base with hot pink + gold accents (avoid blue/purple as primary), ensuring consistent colors across components."
+        },
+        {
+          "path": "frontend/src/index.css",
+          "operation": "modify",
+          "description": "Update global CSS variables and base styles for the K-pop stage vibe (typography, background treatments, button/panel styling foundations) using English UI text only."
+        },
+        {
+          "path": "frontend/src/components/AppLayout.tsx",
+          "operation": "create",
+          "description": "Create a shared layout component (header/nav + content frame) used by all key screens to ensure consistent spacing, panels, and typography."
+        },
+        {
+          "path": "frontend/src/App.tsx",
+          "operation": "modify",
+          "description": "Wrap all key screens with AppLayout and ensure consistent navigation elements are present across Landing, Setup, Agency, Career, Submit, Results, History, and Settings."
+        }
+      ]
+    },
+    {
+      "id": "REQ-9",
+      "summary": "Add and reference generated static assets (logo, stage background, judge avatars) from frontend/public/assets/generated.",
+      "acceptanceCriteria": [
+        "Generated images are present in `frontend/public/assets/generated` and referenced directly by the UI",
+        "Landing screen shows the generated logo and uses the generated background",
+        "Judge feedback screen displays distinct judge avatar images"
+      ],
+      "file_operations": [
+        {
+          "path": "frontend/public/assets/generated/kpop-idol-logo.dim_512x512.png",
+          "operation": "create",
+          "description": "Add the generated game logo static asset for direct frontend rendering."
+        },
+        {
+          "path": "frontend/public/assets/generated/kpop-stage-bg.dim_1920x1080.png",
+          "operation": "create",
+          "description": "Add the generated stage background static asset for direct frontend rendering."
+        },
+        {
+          "path": "frontend/public/assets/generated/judge-avatar-1.dim_512x512.png",
+          "operation": "create",
+          "description": "Add generated judge avatar 1 static asset for the feedback screen."
+        },
+        {
+          "path": "frontend/public/assets/generated/judge-avatar-2.dim_512x512.png",
+          "operation": "create",
+          "description": "Add generated judge avatar 2 static asset for the feedback screen."
+        },
+        {
+          "path": "frontend/public/assets/generated/judge-avatar-3.dim_512x512.png",
+          "operation": "create",
+          "description": "Add generated judge avatar 3 static asset for the feedback screen."
+        },
+        {
+          "path": "frontend/src/pages/LandingPage.tsx",
+          "operation": "modify",
+          "description": "Reference and render the static logo at frontend/public/assets/generated/kpop-idol-logo.dim_512x512.png and use the static background frontend/public/assets/generated/kpop-stage-bg.dim_1920x1080.png in the Landing UI (no backend image routing)."
+        },
+        {
+          "path": "frontend/src/pages/ResultsFeedbackPage.tsx",
+          "operation": "modify",
+          "description": "Display distinct judge avatars in the feedback UI by referencing frontend/public/assets/generated/judge-avatar-1.dim_512x512.png, frontend/public/assets/generated/judge-avatar-2.dim_512x512.png, and frontend/public/assets/generated/judge-avatar-3.dim_512x512.png."
+        }
+      ]
+    }
+  ]
+}

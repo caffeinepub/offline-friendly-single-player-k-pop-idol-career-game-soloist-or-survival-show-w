@@ -1,0 +1,136 @@
+{
+  "schemaVersion": "1.0.0",
+  "projectStateVersion": 3,
+  "summary": "Offline (data-free) single-player game where the user roleplays a fake K-pop idol career (soloist or survival show), can create or choose an entertainment company, customize identity details, and submit real voice/photo/video performances that are judged by in-game \"fake judges\" to provide improvement feedback.",
+  "architectural_notes": [
+    "App is intended to be offline/data-free (no online dependency).",
+    "Requires access to device microphone and camera/photo library for auditions and performance submissions."
+  ],
+  "known_issues": [
+    "Potential conflict: \"fake judges\" giving meaningful feedback on real voice/video may require on-device ML; offline requirement may limit capability/performance.",
+    "Using real-world/\"already existing\" entertainment companies could raise IP/branding/legal concerns; may need fictionalized names/logos."
+  ],
+  "isFixRequest": false,
+  "imageRequirements": "## Required Images\n- Game logo with playful K-pop stage typography (kpop-idol-logo.dim_512x512.png)\n- Wide stage background with spotlights and confetti, dark theme with hot pink and gold accents (kpop-stage-bg.dim_1920x1080.png)\n- Judge avatar portrait 1, stylized cartoon, neon rim light (judge-avatar-1.dim_512x512.png)\n- Judge avatar portrait 2, stylized cartoon, glamorous fashion (judge-avatar-2.dim_512x512.png)\n- Judge avatar portrait 3, stylized cartoon, street/hip-hop vibe (judge-avatar-3.dim_512x512.png)",
+  "existing_features": [
+    {
+      "id": "feature-create-the-core-single-player-game-flow-with-two-career-paths-1-soloist-career-mode-and-2-survival-show-storyline-mode-the-user-must-be-able-to-start-a-new-game-continue-an-existing-game-and-reset-progress",
+      "title": "Create the core single-player game flow with two career paths: (1) Soloist career mode and (2) Survival show storyline mode. The user must be able to start a new game, continue an existing game, and reset progress.",
+      "reqIds": [
+        "REQ-1"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-implement-player-profile-character-setup-for-the-user-s-fake-k-pop-life-including-selectable-gender-nationality-and-age-and-store-it-as-part-of-game-state",
+      "title": "Implement player profile/character setup for the user’s fake K-pop life, including selectable gender, nationality, and age, and store it as part of game state.",
+      "reqIds": [
+        "REQ-2"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-implement-an-entertainment-company-agency-system-where-the-player-can-either-a-create-a-custom-agency-name-optional-short-description-or-b-choose-from-a-predefined-list-of-agencies-included-in-the-app",
+      "title": "Implement an entertainment company (agency) system where the player can either (a) create a custom agency (name + optional short description) or (b) choose from a predefined list of agencies included in the app.",
+      "reqIds": [
+        "REQ-3"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-add-offline-friendly-media-capture-import-features-that-let-the-user-use-their-real-voice-for-auditions-and-attach-a-real-photo-of-themselves-as-part-of-their-character-audition-profile-with-all-media-stored-locally-on-the-device-no-required-upload",
+      "title": "Add offline-friendly media capture/import features that let the user use their real voice for auditions and attach a real photo of themselves as part of their character/audition profile, with all media stored locally on the device (no required upload).",
+      "reqIds": [
+        "REQ-4"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-add-offline-friendly-performance-submission-for-dancing-rapping-video-capture-or-upload-and-allow-the-user-to-attach-it-to-a-specific-audition-performance-event-in-the-chosen-career-path-with-media-stored-locally-on-device",
+      "title": "Add offline-friendly performance submission for dancing/rapping (video capture or upload) and allow the user to attach it to a specific audition/performance event in the chosen career path, with media stored locally on-device.",
+      "reqIds": [
+        "REQ-5"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-implement-in-game-fake-judges-that-generate-coaching-style-feedback-for-each-submitted-audition-performance-using-scripted-rules-not-online-ai-ml-based-on-the-player-selected-performance-type-difficulty-and-a-short-self-rating-input",
+      "title": "Implement in-game “fake judges” that generate coaching-style feedback for each submitted audition/performance using scripted rules (not online AI/ML), based on the player-selected performance type, difficulty, and a short self-rating input.",
+      "reqIds": [
+        "REQ-6"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-ensure-the-game-is-not-an-online-game-in-the-sense-that-it-is-single-player-has-no-multiplayer-features-and-does-not-require-any-external-third-party-services-apis-to-function-provide-an-optional-sign-in-internet-identity-mode-only-for-syncing-basic-text-based-progress-excluding-large-media-if-available",
+      "title": "Ensure the game is “not an online game” in the sense that it is single-player, has no multiplayer features, and does not require any external third-party services/APIs to function; provide an optional sign-in (Internet Identity) mode only for syncing basic text-based progress (excluding large media) if available.",
+      "reqIds": [
+        "REQ-7"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-create-a-coherent-visual-theme-for-the-app-ui-appropriate-for-a-playful-k-pop-stage-vibe-avoid-blue-purple-as-primary-colors-and-apply-it-consistently-across-screens-typography-buttons-panels-and-background",
+      "title": "Create a coherent visual theme for the app UI appropriate for a playful K-pop stage vibe (avoid blue/purple as primary colors), and apply it consistently across screens (typography, buttons, panels, and background).",
+      "reqIds": [
+        "REQ-8"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-generate-and-include-a-small-set-of-static-visual-assets-logo-background-judge-avatars-and-render-them-from-the-frontend-as-static-files-under-frontend-public-assets-generated-no-backend-image-routing",
+      "title": "Generate and include a small set of static visual assets (logo, background, judge avatars) and render them from the frontend as static files under `frontend/public/assets/generated` (no backend image routing).",
+      "reqIds": [
+        "REQ-9"
+      ],
+      "version": 1
+    }
+  ],
+  "new_feature_requests": [
+    {
+      "id": "AR-1",
+      "summary": "Career mode paths: become a fake K-pop idol as soloist or join a survival show storyline",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-2",
+      "summary": "Player profile/character setup: choose gender, nationality, and age for the fake K-pop life",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-3",
+      "summary": "Entertainment company system: create your own agency or select an existing agency",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-4",
+      "summary": "Performance submission features: record/use real voice for auditions and submit a real photo of the user",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-5",
+      "summary": "Performance submission features: capture/submit dancing/rapping performance (e.g., video) for evaluation",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-6",
+      "summary": "In-game judging/feedback: \"fake judges\" evaluate submissions and provide coaching-style improvement feedback",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-7",
+      "summary": "Offline/data-free gameplay mode (not an online game)",
+      "reqIds": [],
+      "status": "pending"
+    }
+  ],
+  "projectName": "Offline-friendly single-player K-pop idol career game (soloist or survival show) with media submissions and scripted judge feedback",
+  "clarification_mode": "instant",
+  "clarification_rounds": 0
+}
